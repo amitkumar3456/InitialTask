@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="Ordered Products" icon-name="custom:custom14">
+        <template if:false={isActive}>
+            <lightning-button label="Send Order" slot="actions" onclick={sendOrder}></lightning-button> 
+        </template>         
+        <lightning-datatable  
+        hide-checkbox-column="true"
+        data={products}  
+        columns={columns} 
+        key-field="Id"  
+        onrowselection={getSelectedIdAction}  
+        onsort={onHandleSort} 
+        default-sort-direction={defaultSortDirection}
+        sorted-direction={sortDirection}
+        > 
+       </lightning-datatable>
+    </lightning-card>
+</template>

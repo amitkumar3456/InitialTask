@@ -18,6 +18,7 @@ Component List
   - OrderActivationPayload - Inner Class to declare the payload variables. 
   - TestDataFactory - Class to maintian test data.
   
-  
+ --FlexiPage
+  - Order_Record_Page - This would only contain two custom LWC components Available Products & Ordered Products.
  
   

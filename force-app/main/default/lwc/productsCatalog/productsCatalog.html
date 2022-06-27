@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Available Products" icon-name="custom:custom14">          
+        <lightning-datatable  
+        hide-checkbox-column={isActive}
+        data={products}  
+        columns={columns} 
+        key-field="Id"  
+        selected-rows={selectedRows} 
+        onsort={onHandleSort} 
+        default-sort-direction={defaultSortDirection}
+        sorted-direction={sortDirection}> 
+        </lightning-datatable>
+        <div slot="footer"> 
+            <template if:false={isActive}>
+                <lightning-button title="Delete" label="Add Products" size="small" variant="brand" icon-name="utility:save" icon-position="right" onclick={addProductAction}></lightning-button>
+            </template>
+        </div>
+    </lightning-card>
+    <div class="exampleHolder">
+        <template if:false={loaded}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+    </div>
+</template>

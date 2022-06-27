@@ -1,0 +1,24 @@
+Title : UseCase to Display Available Products and Ordered Products.
+
+Description : 
+As of part of this functionlaity users would be able to see all the available products as part of the current pricebook. The user has then option to select specific products as an Order Product. Once the products are added we would be able to see the list in the Ordered Products Component. When a similar product is added the quantity would be increased by 1 rather than duplicataing the order product.
+
+Component List
+ --LWC
+  - ProductsCatalog = Displays all the available products uses LMS to communitate to the next component.
+  - OrderedProducts = Once products are selected they would convert into an Order Product and since we do not want to refresh the whole page we would fetch details from LMS and only refresh the current scope.
+  
+ --Message Channel
+  - SampleMessageChannel - Used to communicate between two components. 
+ 
+ --Apex Classes
+  - AddProductComponentController - Controller class to only return list of desired result.
+  - OrderServiceClass - Class to upsert the selected products into an Order.
+  - OrderProcessCtrl - Class to make a callout and update the Order details accordingly. 
+  - OrderActivationPayload - Inner Class to declare the payload variables. 
+  - TestDataFactory - Class to maintian test data.
+  
+ --FlexiPage
+  - Order_Record_Page - This would only contain two custom LWC components Available Products & Ordered Products.
+ 
+  

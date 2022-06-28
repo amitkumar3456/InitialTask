@@ -46,23 +46,29 @@ export default class ProductsCatalog extends LightningElement {
         let $this = this;
         $this.loaded = false;
         let selectedRecords =  this.template.querySelector("lightning-datatable").getSelectedRows();
-        addProductsToOrder({ prodIds: selectedRecords, orderId: this.recordId})
-        .then((result) => {
-            $this.showToast('Success','Product added successfully.','success');
-            $this.loaded = true;
-            const message={
-                lmsData:{
-                    value:''
+        if(selectedRecords.length>0){
+            addProductsToOrder({ prodIds: selectedRecords, orderId: this.recordId})
+            .then((result) => {
+                $this.showToast('Success','Product added successfully.','success');
+                $this.loaded = true;
+                const message={
+                    lmsData:{
+                        value:''
+                    }
                 }
-            }
-            $this.template.querySelector('lightning-datatable').selectedRows = [];
-            publish($this.context, SAMPLEMC, message)
-        })
-        .catch((error) => {
+                $this.template.querySelector('lightning-datatable').selectedRows = [];
+                publish($this.context, SAMPLEMC, message)
+            })
+            .catch((error) => {
+                $this.loaded = true;
+                console.log(JSON.stringify(error));
+                $this.showToast('Error','Error creating record.','error');
+            });
+        }
+        else{
             $this.loaded = true;
-            console.log(JSON.stringify(error));
-            $this.showToast('Error','Error creating record.','error');
-        });
+            $this.showToast('Error','Please select products.','error');
+        }
     }
 
     //to handle sorting.

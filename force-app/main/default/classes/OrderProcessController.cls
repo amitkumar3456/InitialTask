@@ -17,7 +17,7 @@ Public class OrderProcessController {
         HttpResponse response = new HttpResponse();
         Http http = new Http();
         //Fetching the endPoint Url from the Named Credential
-        request.setEndpoint('callout:Test_Callout'); 
+        request.setEndpoint('callout:SalesforceCallout'); 
         request.setMethod('POST');
         request.setBody(requestBody);
         request.setHeader('Content-Type','application/json');

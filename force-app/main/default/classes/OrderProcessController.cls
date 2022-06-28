@@ -1,12 +1,12 @@
 /****************************************************************
-* Class Name:  OrderProcess
-* Test Class:  OrderProcess_Test
+* Class Name:  OrderProcessController
+* Test Class:  OrderProcessController_Test
 * Purpose   :  Orders make a callout and update the order.
 *****************************************************************/            
 /*
 * Revision History  :  Created : 24 June 2022 Amit Kumar
 */
-Public class OrderProcessCtrl {
+Public class OrderProcessController {
     /**
      * Method to make a callout and fetch the response. 
      */

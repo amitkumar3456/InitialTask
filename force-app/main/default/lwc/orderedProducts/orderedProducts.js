@@ -79,7 +79,7 @@ export default class ProductsCatalog extends LightningElement {
     //Button to send the Order And Update Order status.
     sendOrder() {
         let $this = this;
-        if(this.wireProduct.length>0){
+        if(this.products.length>0){
             fetchOrderDetails({ orderId: this.recordId })
             .then(result => {
                 refreshApex($this.order);

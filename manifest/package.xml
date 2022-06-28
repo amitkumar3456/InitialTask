@@ -25,5 +25,9 @@
 		<members>*</members>
 		<name>FlexiPage</name>
 	</types>
+	<types>
+		<members>*</members>
+		<name>NamedCredential</name>
+	</types>
     <version>53.0</version>
 </Package>

@@ -40,6 +40,7 @@ Public class AddProductComponentController {
 	*/
     @AuraEnabled
     public static void addProductsToOrder(List<PricebookEntry> prodIds, ID orderId){ 
-        OrderServiceClass.addSelectedProductsToOrder(prodIds, orderId);
-    }
+        OrderServiceClass service = new OrderServiceClass();
+        service.addSelectedProductsToOrder(prodIds, orderId);
+    } 
 }

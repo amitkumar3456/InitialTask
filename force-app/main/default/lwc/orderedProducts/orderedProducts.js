@@ -1,7 +1,7 @@
 import { LightningElement, wire,api} from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getOrderItems from '@salesforce/apex/AddProductComponentController.getOrderItems';
-import fetchOrderDetails from '@salesforce/apex/OrderProcessCtrl.fetchOrderDetails';
+import fetchOrderDetails from '@salesforce/apex/OrderProcessController.fetchOrderDetails';
 import SAMPLEMC from "@salesforce/messageChannel/SampleMessageChannel__c";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import {subscribe, MessageContext, APPLICATION_SCOPE, unsubscribe} from 'lightning/messageService';
@@ -13,16 +13,19 @@ export default class ProductsCatalog extends LightningElement {
     products = [];
     recievedMessage;
     subscription;
+
     columns =[
         { label: 'Product Name', fieldName: 'Name', type:'text',sortable: true}, 
         { label: 'List Price', fieldName: 'UnitPrice', type:'currency',sortable: true},
         { label: 'Quantity', fieldName: 'Quantity', type:'number',sortable: true},
         { label: 'Total Price', fieldName: 'TotalPrice', type:'currency',sortable: true}      
     ];
+
     defaultSortDirection = 'asc';
     sortDirection = 'asc';
     sortedBy;
     wireProductsData;
+
     @wire(getRecord, { recordId: '$recordId', fields: [STATUS_FIELD]})
     order
 
@@ -46,6 +49,7 @@ export default class ProductsCatalog extends LightningElement {
             this.products = undefined;
         }
     }
+
     onHandleSort(event) {
         const { fieldName: sortedBy, sortDirection } = event.detail;
         const cloneData = [...this.products];
@@ -55,6 +59,7 @@ export default class ProductsCatalog extends LightningElement {
         this.sortDirection = sortDirection==='asc'?'asc':'desc';
         this.sortedBy = sortedBy;
     }
+
     sortBy(field, reverse, primer) {
         const key = primer
             ? function (x) {
@@ -70,6 +75,8 @@ export default class ProductsCatalog extends LightningElement {
             return reverse * ((a > b) - (b > a));
         };
     }
+
+    //Button to send the Order And Update Order status.
     sendOrder() {
         let $this = this;
         if(this.wireProduct.length>0){
@@ -92,16 +99,20 @@ export default class ProductsCatalog extends LightningElement {
             $this.showToast('Error','Please select products.','error');
         }
     }
+
     get isActive() {
         return getFieldValue(this.order.data, STATUS_FIELD)=='Activated';
     }
+
     connectedCallback(){
         this.subscribeMessage()
     }
+
     subscribeMessage(){
         //subscribe(messageContext, messageChannel, listener, subscriberOptions)
         this.subscription= subscribe(this.context, SAMPLEMC, (message)=>{refreshApex(this.wireProductsData);}, {scope:APPLICATION_SCOPE})
     }
+
     showToast(title,message,variant) {
         const event = new ShowToastEvent({title,message,variant});
         this.dispatchEvent(event);

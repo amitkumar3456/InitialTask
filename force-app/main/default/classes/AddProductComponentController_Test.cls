@@ -8,9 +8,9 @@
 */
 @isTest
 public class AddProductComponentController_Test {
-    /*Test Method for the method getOrderPriceBookProducts(orderId)*/
+    /*Test Method for the method getPriceBookEntryList(orderId)*/
     @isTest
-    private static void testMethod1(){       
+    private static void testToCheckPriceBookEntryList(){       
         Order orderRec = TestDataFactory.createOrderRecord();
         List<PricebookEntry> pbeList = AddProductComponentController.getPriceBookEntryList(orderRec.Id);
         system.assertEquals(0, pbeList.size());
@@ -26,7 +26,7 @@ public class AddProductComponentController_Test {
     
     
     @isTest
-    private static void testMethod2(){
+    private static void testToFetchOrderItems(){
         Order orderRec = TestDataFactory.createOrderRecord();
         List<OrderItem> itemList = AddProductComponentController.getOrderItems(orderRec.Id);
         system.assertEquals(0, itemList.size());
@@ -37,9 +37,11 @@ public class AddProductComponentController_Test {
         system.assertEquals(1, orderItemList[0].Quantity);
     }
     
-    
+    /*
+     * Test Method would check if the same product is inserted, The quantity  would be increased by 1.
+*/
     @isTest
-    private static void testMethod3(){
+    private static void testForSameProductInsert(){
         Id orderId;
         List<OrderItem> orderItemList = TestDataFactory.createOrderItemsRecord(10);
         
@@ -66,7 +68,7 @@ public class AddProductComponentController_Test {
     
     
     @isTest
-    private static void testMethod4(){
+    private static void testForQuantityCheck(){
         Order orderRec = TestDataFactory.createOrderRecord();
         List<OrderItem> orderItemList = TestDataFactory.createOrderItemsRecord(10);
         

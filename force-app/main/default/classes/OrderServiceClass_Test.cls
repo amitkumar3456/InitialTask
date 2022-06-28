@@ -13,7 +13,7 @@ public without sharing class OrderServiceClass_Test {
      * Provided the matched pricebookentry Ids are specified.
 	*/
     @isTest
-    private static void testMethod1(){
+    private static void testForQuantityUpdation(){
         Id orderId;
         List<OrderItem> orderItemList = TestDataFactory.createOrderItemsRecord(10);
         
@@ -25,7 +25,8 @@ public without sharing class OrderServiceClass_Test {
         }
         
         List<PricebookEntry> pricebookEntryList = [Select Id,Name,UnitPrice,Product2Id FROM PricebookEntry Where Id IN : entryIds];
-        OrderServiceClass.addSelectedProductsToOrder(pricebookEntryList, orderId);
+        OrderServiceClass serviceCls = new OrderServiceClass();
+        serviceCls.addSelectedProductsToOrder(pricebookEntryList, orderId);
         
         List<OrderItem> orderItemsList = [Select Id,OrderId,Product2.name,UnitPrice, Quantity, TotalPrice,Product2Id 
                                           FROM OrderItem];
@@ -44,12 +45,13 @@ public without sharing class OrderServiceClass_Test {
      * matched pricebookentry Ids are not specified.
 	*/
     @isTest
-    private static void testMethod2(){
+    private static void testForUnMatchedPricebookEntry(){
         Order orderRec = TestDataFactory.createOrderRecord();
         List<OrderItem> orderItemList = TestDataFactory.createOrderItemsRecord(10);
         
         List<PricebookEntry> pricebookEntryList = [Select Id,Name,UnitPrice,Product2Id FROM PricebookEntry];
-        OrderServiceClass.addSelectedProductsToOrder(pricebookEntryList, orderRec.Id);
+        OrderServiceClass serviceCls = new OrderServiceClass();
+        serviceCls.addSelectedProductsToOrder(pricebookEntryList, orderRec.Id);
         
         List<OrderItem> itemList = [Select Id,OrderId,Product2.name,UnitPrice, Quantity, TotalPrice,Product2Id 
                                     FROM OrderItem];

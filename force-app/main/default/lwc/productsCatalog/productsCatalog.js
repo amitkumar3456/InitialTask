@@ -5,7 +5,7 @@ import addProductsToOrder from '@salesforce/apex/AddProductComponentController.a
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import SAMPLEMC from "@salesforce/messageChannel/SampleMessageChannel__c"
 import {MessageContext, publish} from 'lightning/messageService'
-import { refreshApex } from '@salesforce/apex'; 
+import { refreshApex } from '@salesforce/apex';
 import STATUS_FIELD from '@salesforce/schema/Order.Status';
 
 export default class ProductsCatalog extends LightningElement {
@@ -14,6 +14,7 @@ export default class ProductsCatalog extends LightningElement {
         { label: 'Product Name', fieldName: 'Name', type:'text',sortable: true}, 
         { label: 'List Price', fieldName: 'UnitPrice', type:'currency',sortable: true}      
     ];
+
     defaultSortDirection = 'asc';
     sortDirection = 'asc';
     sortedBy;
@@ -21,10 +22,12 @@ export default class ProductsCatalog extends LightningElement {
     @api recordId;
     products;
 
+    
     @wire(getRecord, { recordId: '$recordId', fields: [STATUS_FIELD]})
     order
     @wire(MessageContext)
     context
+
     @wire(getPriceBookEntryList, { orderId: '$recordId' })
     wireProducts({ error, data }) {
         this.loaded = true;
@@ -36,7 +39,10 @@ export default class ProductsCatalog extends LightningElement {
             this.products = undefined;
         }
     }
+
+
     addProductAction(e){
+        //We have declared this as the $this woul not be overrided
         let $this = this;
         $this.loaded = false;
         let selectedRecords =  this.template.querySelector("lightning-datatable").getSelectedRows();
@@ -58,6 +64,8 @@ export default class ProductsCatalog extends LightningElement {
             $this.showToast('Error','Error creating record.','error');
         });
     }
+
+    //to handle sorting.
     onHandleSort(event) {
         const { fieldName: sortedBy, sortDirection } = event.detail;
         const cloneData = [...this.products];
@@ -67,6 +75,8 @@ export default class ProductsCatalog extends LightningElement {
         this.sortDirection = sortDirection==='asc'?'desc':'asc';
         this.sortedBy = sortedBy;
     }
+
+    //Standard way of sorting. Used from the Component Library
     sortBy(field, reverse, primer) {
         const key = primer
             ? function (x) {
@@ -82,9 +92,13 @@ export default class ProductsCatalog extends LightningElement {
             return reverse * ((a > b) - (b > a));
         };
     }
+
+    //To fetch the orderStatus value
     get isActive() {
         return getFieldValue(this.order.data, STATUS_FIELD)=='Activated';
     }
+
+    //Separate method for toast messages
     showToast(title,message,variant) {
         const event = new ShowToastEvent({title,message,variant});
         this.dispatchEvent(event);

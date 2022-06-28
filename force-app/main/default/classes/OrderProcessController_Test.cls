@@ -1,26 +1,26 @@
 /****************************************************************
-* Class Name:  OrderProcessCtrl_Test
-* Main Class:  OrderProcessCtrl
-* Purpose   :  Test Class for AddProductComponentController
+* Class Name:  OrderProcessController_Test
+* Main Class:  OrderProcessController
+* Purpose   :  Test Class for OrderProcessController
 *****************************************************************/            
 /*
 * Revision History  :  Created : 26 June 2022 Amit Kumar
 */
 @isTest
-Public class OrderProcessCtrl_Test {
+Public class OrderProcessController_Test {
     @isTest
-    private static void testMethod1(){
+    private static void testForMockClassResponse(){
         Order orderRec = TestDataFactory.createOrderRecord();
-        System.assert(orderRec.Id!=null);
+        System.assert(orderRec.Id != null);
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new OrderHttpMockResponse());  
-        String strResp = OrderProcessCtrl.fetchOrderDetails(orderRec.Id);
+        String strResp = OrderProcessController.fetchOrderDetails(orderRec.Id);
         Test.stopTest();
     }
     
     
     //@isTest
-    private static void testMethod2(){
+    private static void testToCheckRequestBody(){
         //Order orderRec = TestDataFactory.createOrderRecord();
         List<OrderItem> itemsList = TestDataFactory.createOrderItemsRecord(1);
         Id orderId = itemsList[0].OrderId;
@@ -29,18 +29,18 @@ Public class OrderProcessCtrl_Test {
                                                             From OrderItems WHERE OrderId =: orderId) 
                                                            FROM Order WHERE Id =: orderId]);
         
-        String jsonStr = OrderProcessCtrl.createRequestBody(orderItemsMap, orderId);
+        String jsonStr = OrderProcessController.createRequestBody(orderItemsMap, orderId);
         
         system.assert(jsonStr != Null);
     }
     
     
     //@isTest
-    private static void testMethod3(){
+    private static void testToCheckOrderStatusValue(){
         List<OrderItem> itemsList = TestDataFactory.createOrderItemsRecord(5);
         String beforeOrderUpdate = [Select Id, Status FROM Order].Status;
         Test.startTest();
-        OrderProcessCtrl.updateOrderResult(itemsList[0].OrderId, 200, '');
+        OrderProcessController.updateOrderResult(itemsList[0].OrderId, 200, '');
         Test.stopTest();
         String afterOrderUpdate = [Select Id, Status FROM Order].Status;
         
